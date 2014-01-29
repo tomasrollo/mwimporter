@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mocha Spec Runner</title>
+    <link rel="stylesheet" href="bower_components/mocha/mocha.css">
+</head>
+<body>
+    <div id="mocha"></div>
+    <script src="bower_components/mocha/mocha.js"></script>
+    <script>mocha.setup('bdd')</script>
+    <script src="bower_components/chai/chai.js"></script>
+    <script>
+        var assert = chai.assert;
+        var expect = chai.expect;
+        var should = chai.should();
+    </script>
+
+    <!-- include source files here... -->
+
+    <script src="test/collections/rules.js"></script>
+    <script src="test/models/RulesModel.js"></script>
+    <script src="test/models/Rules.js"></script>
+    <script src="test/collections/categories.js"></script>
+    <script src="test/models/rule.js"></script>
+    <script src="test/collections/records.js"></script>
+    <script src="test/models/record.js"></script>
+    <script src="test/views/rulestable.js"></script>
+    <script src="test/views/categoriestable.js"></script>
+    <script src="test/views/recordstable.js"></script>
+    <script src="test/models/category.js"></script>
+    <script src="test/views/status.js"></script>
+    <script src="test/views/filecontrol.js"></script>
+    <script src="test/views/categoryedit.js"></script>
+    <script src="test/views/ruleedit.js"></script>
+    <script src="test/views/recordedit.js"></script>
+    <!-- include spec files here... -->
+    <script src="spec/test.js"></script>
+
+    <script>mocha.run()</script>
+</body>
+</html>

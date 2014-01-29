@@ -1,0 +1,102 @@
+<!doctype html>
+<!--[if lt IE 7]>		<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>		 <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>		 <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>MoneyWiz importer</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+		<!-- build:css(.tmp) styles/main.css -->
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+		<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="styles/main.css">
+		<!-- endbuild -->
+		<!-- build:js scripts/vendor/modernizr.js -->
+		<script src="bower_components/modernizr/modernizr.js"></script>
+		<!-- endbuild -->
+	</head>
+	<body>
+		<!--[if lt IE 10]>
+			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+  	<div class="container" id="headerPane">
+  		<div class="row">
+  		  <div class="col-md-4 col-md-offset-8">Status: <span id="statusSpan"></span></div>
+  		</div>
+  	</div>
+  	<div class="container" id="rulesPane">
+  	</div>
+  	<div class="container" id="categoriesPane">
+  	</div>
+  	<div class="container" id="filesPane">
+  		<div class="row">
+    		<div class="col-md-2">
+      		Iri - KB file
+    		</div>
+    		<div class="col-md-6">
+    			<input id="iricsvurl" type="text" value="/app/512830720217_20130801_20130831.csv">
+    			<button class="btn btn-primary btnLoadIriFile" type="button">Load!</button>
+    		</div>
+    		<div class="col-md-4">
+    			<p class="iriFileStatus"></p>
+    		</div>
+  		</div>
+  		<div class="row">
+    		<div class="col-md-2">
+      		Tomas - KB file
+    		</div>
+    		<div class="col-md-6">
+    			<input id="tomascsvurl" type="text" value="/app/510117800247_20130801_20130831.csv">
+    			<button class="btn btn-primary btnLoadTomasFile" type="button">Load!</button>
+    		</div>
+    		<div class="col-md-4">
+    			<p class="tomasFileStatus"></p>
+    		</div>
+  		</div>
+  		<div class="row">
+    		<div class="col-md-12">
+    			<button class="btn btn-primary btnProcessFiles" type="button">Merge files</button>
+    			<button class="btn btn-primary btnGuessCategories" type="button">Guess categories</button>
+    			<button class="btn btn-primary btnDownloadResultFile" type="button">Download result</button>
+    		</div>
+  		</div>
+  	</div>
+  	<div class="container" id="recordsPane">
+  	</div>
+
+		<!-- build:js scripts/vendor.js -->
+		<script src="bower_components/jquery/jquery.js"></script>
+		<script src="bower_components/underscore/underscore.js"></script>
+		<script src="bower_components/backbone/backbone.js"></script>
+		<script src="bower_components/backbone.localstorage/backbone.localStorage.js"></script>
+		<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+		<!-- endbuild -->
+
+		<!-- build:js scripts/plugins.js -->
+		<!-- endbuild -->
+
+		<!-- build:js({.tmp,app}) scripts/main.js -->
+		<script src="scripts/main.js"></script>
+		<script src="scripts/templates.js"></script>
+		<script src="scripts/models/rule.js"></script>
+		<script src="scripts/models/record.js"></script>
+		<script src="scripts/models/category.js"></script>
+		<script src="scripts/collections/rules.js"></script>
+		<script src="scripts/collections/categories.js"></script>
+		<script src="scripts/collections/records.js"></script>
+		<script src="scripts/views/rulestable.js"></script>
+		<script src="scripts/views/categoriestable.js"></script>
+		<script src="scripts/views/recordstable.js"></script>
+		<script src="scripts/views/status.js"></script>
+		<script src="scripts/views/filecontrol.js"></script>
+		<script src="scripts/views/categoryedit.js"></script>
+		<script src="scripts/views/ruleedit.js"></script>
+		<script src="scripts/views/recordedit.js"></script>
+		<!-- endbuild -->
+</body>
+</html>
