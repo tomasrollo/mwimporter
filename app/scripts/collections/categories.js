@@ -7,14 +7,13 @@ mwimporter.Collections = mwimporter.Collections || {};
 
 	mwimporter.Collections.CategoriesCollection = Backbone.Collection.extend({
 		
-		localstorage: new Backbone.LocalStorage('Categories'),
+		localStorage: new Backbone.LocalStorage('Categories'),
 		
 		model: mwimporter.Models.CategoryModel,
 
-    url: 'categories/',
+    url: '/categories',
     
 		initialize: function() {
-			// this.on('all', mwimporter.debug("mwimporter.Categories"));
 			this.on('all', mwimporter.vent.setupTrigger('categories'));
 		},
 		

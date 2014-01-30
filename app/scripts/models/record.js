@@ -10,6 +10,7 @@ mwimporter.Models = mwimporter.Models || {};
 		url: '',
 
 		initialize: function() {
+			this.on('all', mwimporter.vent.setupTrigger('record'));
 		},
 
 		defaults: {

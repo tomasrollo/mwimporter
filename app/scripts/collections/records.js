@@ -7,12 +7,13 @@ mwimporter.Collections = mwimporter.Collections || {};
 
 	mwimporter.Collections.RecordsCollection = Backbone.Collection.extend({
 		
-		localstorage: new Backbone.LocalStorage('Records'),
+		localStorage: new Backbone.LocalStorage('Records'),
 
 		model: mwimporter.Models.RecordModel,
 		
+		url: '/records',
+		
 		initialize: function() {
-			// this.on('all', mwimporter.debug("mwimporter.Records"));
 			this.on('all', mwimporter.vent.setupTrigger('records'));
 		}
 

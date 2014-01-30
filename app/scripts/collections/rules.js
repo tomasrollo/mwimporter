@@ -10,9 +10,10 @@ mwimporter.Collections = mwimporter.Collections || {};
 		localStorage: new Backbone.LocalStorage('Rules'),
 		
 		model: mwimporter.Models.RuleModel,
+		
+		url: '/rules',
 
 		initialize: function() {
-			// this.on('all', mwimporter.debug("rules"));
 			this.on('all', mwimporter.vent.setupTrigger('rules'));
 		}
 	});
