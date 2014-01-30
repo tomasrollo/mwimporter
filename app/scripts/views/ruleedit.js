@@ -31,7 +31,6 @@ mwimporter.Views = mwimporter.Views || {};
 			this.rule = rule;
 			console.log('started to edit model cid='+rule.cid);
 			// populate the dialog with rule data
-			$('#ruleEditDialog input.ruleid').val(rule.id !== undefined ? rule.id : rule.cid);
 			$('#ruleEditDialog input.accountNumber').val(rule.get("accountNumber"));
 			$('#ruleEditDialog input.accountName').val(rule.get("accountName"));
 			$('#ruleEditDialog input.vs').val(rule.get("vs"));
@@ -66,10 +65,9 @@ mwimporter.Views = mwimporter.Views || {};
 				payee: $('#ruleEditDialog input.payee').val()
 			});
 			$('#ruleEditDialog').modal('hide');
-			this.collection.add(this.rule); // this shall also trigger (re)render the row in the table
-			// save the model to the server
-			this.rule.save();
-			console.log('Saved model cid='+this.rule.cid);
+			if (!this.collection.contains(this.rule)) this.collection.add(this.rule); // add the rule into the collection if it's a new rule
+		 	this.rule.save();
+		// 	console.log('Saved model cid='+this.rule.cid);
 			this.rule = null;
 		}
 	});

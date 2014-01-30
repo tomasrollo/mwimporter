@@ -7,12 +7,12 @@ mwimporter.Collections = mwimporter.Collections || {};
 
 	mwimporter.Collections.RulesCollection = Backbone.Collection.extend({
 
-		localstorage: new Backbone.LocalStorage('Rules'),
+		localStorage: new Backbone.LocalStorage('Rules'),
 		
 		model: mwimporter.Models.RuleModel,
 
 		initialize: function() {
-			// this.on('all', mwimporter.debug("mwimporter.Rules"));
+			// this.on('all', mwimporter.debug("rules"));
 			this.on('all', mwimporter.vent.setupTrigger('rules'));
 		}
 	});

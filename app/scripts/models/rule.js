@@ -7,11 +7,8 @@ mwimporter.Models = mwimporter.Models || {};
 
 	mwimporter.Models.RuleModel = Backbone.Model.extend({
 
-		url: '',
-
-		initialize: function() {
-		},
-
+    url: '',
+    
 		defaults: {
 			accountNumber: '',
 			accountName: '',
@@ -26,11 +23,20 @@ mwimporter.Models = mwimporter.Models || {};
 			payee: ''
 		},
 
+		initialize: function() {
+			// this.on('all', mwimporter.debug("rule"));
+			this.on('all', mwimporter.vent.setupTrigger('rule'));
+		},
+
 		validate: function(attrs, options) {
 		},
 
 		parse: function(response, options)	{
 			return response;
+		},
+		
+		edit: function() {
+			mwimporter.vent.trigger('rule:edit', this);
 		}
 	});
 

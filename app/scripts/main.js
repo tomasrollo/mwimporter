@@ -46,7 +46,7 @@ window.mwimporter = {
 			el: '#filesPane'
 		});
 
-    // let's render all the relevant views for the first time
+		// let's render all the relevant views for the first time
 		this.rulestableView.render();
 		this.categoriestableView.render();
 		this.recordstableView.render();
@@ -55,7 +55,7 @@ window.mwimporter = {
 
 window.mwimporter.debug = function(name) {
 	return function() {
-	console.log(name+' '+arguments[0], Array.prototype.slice.apply(arguments, [1]));
+		console.log(name+' '+arguments[0], Array.prototype.slice.apply(arguments, [1]));
 	};
 };
 
@@ -63,7 +63,7 @@ window.mwimporter.vent = _.extend({}, Backbone.Events);
 window.mwimporter.vent.on('all', window.mwimporter.debug("mwimporter.vent")); // log all events by default
 window.mwimporter.vent.setupTrigger = function(name) {
 	return function(eventName) {
-	window.mwimporter.vent.trigger.apply(window.mwimporter.vent, _.flatten([name+':'+eventName, Array.prototype.slice.apply(arguments, [1])]));
+		window.mwimporter.vent.trigger.apply(window.mwimporter.vent, _.flatten([name+':'+eventName, Array.prototype.slice.apply(arguments, [1])]));
 	};
 };
 
