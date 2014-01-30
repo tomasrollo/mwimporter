@@ -33,18 +33,12 @@ mwimporter.Views = mwimporter.Views || {};
 		events: {
 			"click .btnEditRecord": "editRecord",
 			"click .btnDeleteRecord": "deleteRecord",
-			"click .btnAddRecord": "newRecord",
 			"click .btnLoadRecords": "loadRecords"
 		},
 		editRecord: function(e) {
 			var id = $(e.currentTarget).parents('tr').find('input.recordid').val();
 			var record = this.collection.get(id);
 			mwimporter.vent.trigger('record:edit', record);
-		},
-		newRecord: function(e) {
-			var record = new mwimporter.Models.RecordModel({});
-			console.log("Adding a record, cid="+record.cid);
-			mwimporter.vent.trigger('record:new', record);
 		},
 		deleteRecord: function(e) {
 			var id = $(e.currentTarget).parents('tr').find('input.recordid').val();

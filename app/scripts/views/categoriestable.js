@@ -34,18 +34,12 @@ mwimporter.Views = mwimporter.Views || {};
 		events: {
 			"click .btnEditCategory": "editCategory",
 			"click .btnDeleteCategory": "deleteCategory",
-			"click .btnAddCategory": "newCategory",
 			"click .btnLoadCategories": "loadCategories"
 		},
 		editCategory: function(e) {
 			var id = $(e.currentTarget).parents('tr').find('input.categoryid').val();
 			var category = this.collection.get(id);
 			mwimporter.vent.trigger('category:edit', category);
-		},
-		newCategory: function(e) {
-			var category = new mwimporter.Models.CategoryModel({});
-			console.log("Adding a category, cid="+category.cid);
-			mwimporter.vent.trigger('category:new', category);
 		},
 		deleteCategory: function(e) {
 			var id = $(e.currentTarget).parents('tr').find('input.categoryid').val();

@@ -11,7 +11,6 @@ mwimporter.Views = mwimporter.Views || {};
 
 		events: {
 			"click .btnAddRule": "newRule",
-			"click .btnLoadRules": "loadRules"
 		},
 		
 		initialize: function() {
@@ -33,9 +32,6 @@ mwimporter.Views = mwimporter.Views || {};
 			var rule = new mwimporter.Models.RuleModel({});
 			console.log("Adding a rule, cid="+rule.cid);
 			mwimporter.vent.trigger('rule:new', rule);
-		},
-		loadRules: function() {
-			this.collection.fetch({update: true});
 		},
 	});
 	
