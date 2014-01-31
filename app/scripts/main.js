@@ -56,7 +56,7 @@ window.mwimporter = {
 		this.categoriestableView.render();
 		this.recordstableView.render();
 		
-		// and collapse by default
+		// and collapse by default - TODO resolve
 		$('#categoriesPanel').collapse('hide');
 		$('#categoriesPanel').collapse('hide');
 		$('#rulesPanel').collapse('hide');
