@@ -55,6 +55,13 @@ window.mwimporter = {
 		this.rulestableView.render();
 		this.categoriestableView.render();
 		this.recordstableView.render();
+		
+		// and collapse by default
+		$('#categoriesPanel').collapse('hide');
+		$('#categoriesPanel').collapse('hide');
+		$('#rulesPanel').collapse('hide');
+		$('#rulesPanel').collapse('hide');
+
 	}
 };
 
