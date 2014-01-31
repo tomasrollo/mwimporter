@@ -31,7 +31,6 @@ mwimporter.Views = mwimporter.Views || {};
 			this.record = record;
 			console.log('started to edit record cid='+record.cid);
 			// populate the dialog with record data
-			$('#recordEditDialog input.recordid').val(record.id !== undefined ? record.id : record.cid);
 			$('#recordEditDialog input.account').val(record.get("account"));
 			$('#recordEditDialog input.transfers').val(record.get("transfers"));
 			$('#recordEditDialog input.desc').val(record.get("desc"));
@@ -58,10 +57,9 @@ mwimporter.Views = mwimporter.Views || {};
 				amount: $('#recordEditDialog input.amount').val(),
 			});
 			$('#recordEditDialog').modal('hide');
-			this.collection.add(this.record); // this shall also trigger (re)render the row in the table
-			// save the model to the server
-			this.record.save();
-			console.log('Saved record cid='+this.record.cid);
+			if (!this.collection.contains(this.record)) this.collection.add(this.record); // add the record into the collection if it's a new record
+		 	this.record.save();
+		// 	console.log('Saved model cid='+this.record.cid);
 			this.record = null;
 		}
 	});

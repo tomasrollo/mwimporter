@@ -28,6 +28,10 @@ mwimporter.Models = mwimporter.Models || {};
 
 		parse: function(response, options)	{
 			return response;
+		},
+		
+		edit: function() {
+			mwimporter.vent.trigger('record:edit', this);
 		}
 	});
 

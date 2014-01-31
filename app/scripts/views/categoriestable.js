@@ -8,49 +8,58 @@ mwimporter.Views = mwimporter.Views || {};
 	mwimporter.Views.CategoriestableView = Backbone.View.extend({
 
 		template: JST['app/scripts/templates/categoriestable.ejs'],
-		rowTemplate: JST['app/scripts/templates/categoryrow.ejs'],
 
+		events: {
+			"click .btnAddCategory": "newCategory",
+		},
+		
 		initialize: function() {
-			_.bindAll(this, "renderCategoryRow");
+			_.bindAll(this, "addCategory");
 			mwimporter.vent.on({
-			'categories:add': this.renderCategoryRow,
-			'categories:change': this.renderCategoryRow,
+				'categories:add': this.addCategory,
 			});
+			// render the table for the first time - it will not change after that
+			this.$el.html(this.template());
 		},
 		render: function() {
-			this.$el.html(this.template());
 			return this;
 		},
-		renderCategoryRow: function(category) {
-			console.log("rendering category row for category id="+(category.id !== undefined ? category.id : category.cid));
-			var params = category.toJSON();
-			this.removeCategoryRow(category);
-			this.$el.find('tbody').append(this.rowTemplate(params));
+		addCategory: function(category) {
+			var rowView = new mwimporter.Views.CategoryrowView({model: category});
+			this.$el.find('tbody').append(rowView.render().el);
 		},
-		removeCategoryRow: function(category) {
-			var id = (category.id !== undefined ? category.id : category.cid);
-			this.$el.find('input[value='+id+']').parents('tr').remove();
+		newCategory: function() {
+			var category = new mwimporter.Models.CategoryModel({});
+			console.log("Adding a category, cid="+category.cid);
+			mwimporter.vent.trigger('category:new', category);
 		},
+	});
+
+	mwimporter.Views.CategoryrowView = Backbone.View.extend({
+		
+		template: JST['app/scripts/templates/categoryrow.ejs'],
+		
+		tagName: "tr",
+		
 		events: {
 			"click .btnEditCategory": "editCategory",
 			"click .btnDeleteCategory": "deleteCategory",
-			"click .btnLoadCategories": "loadCategories"
 		},
-		editCategory: function(e) {
-			var id = $(e.currentTarget).parents('tr').find('input.categoryid').val();
-			var category = this.collection.get(id);
-			mwimporter.vent.trigger('category:edit', category);
+		
+		initialize: function() {
+			this.listenTo(this.model, "change", this.render);
+			this.listenTo(this.model, "destroy", this.remove);
 		},
-		deleteCategory: function(e) {
-			var id = $(e.currentTarget).parents('tr').find('input.categoryid').val();
-			var category = this.collection.get(id);
-			console.log("Deleting category, cid="+category.cid);
-			category.destroy();
-			this.collection.remove(category);
-			this.removeCategoryRow(category);
+		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
 		},
-		loadCategories: function() {
-			this.collection.fetch({update: true});
+		editCategory: function() {
+			this.model.edit();
+		},
+		deleteCategory: function() {
+			console.log("Deleting category, cid="+this.model.cid);
+			this.model.destroy();
 		},
 	});
 

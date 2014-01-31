@@ -47,9 +47,6 @@ mwimporter.Views = mwimporter.Views || {};
 		},
 		
 		initialize: function() {
-		// 	mwimporter.vent.on({
-		// 		'rules:add': this.addRule,
-		// 	});
 			this.listenTo(this.model, "change", this.render);
 			this.listenTo(this.model, "destroy", this.remove);
 		},
@@ -63,7 +60,6 @@ mwimporter.Views = mwimporter.Views || {};
 		deleteRule: function() {
 			console.log("Deleting rule, cid="+this.model.cid);
 			this.model.destroy();
-		// 	this.collection.remove(rule);
 		},
 	});
 

@@ -31,7 +31,6 @@ mwimporter.Views = mwimporter.Views || {};
 			this.category = category;
 			console.log('started to edit category cid='+category.cid);
 			// populate the dialog with category data
-			$('#categoryEditDialog input.categoryid').val(category.id !== undefined ? category.id : category.cid);
 			$('#categoryEditDialog input.name').val(category.get("name"));
 			//show the dialog
 			$('#categoryEditDialog').modal('show');
@@ -46,10 +45,9 @@ mwimporter.Views = mwimporter.Views || {};
 				name: $('#categoryEditDialog input.name').val()
 			});
 			$('#categoryEditDialog').modal('hide');
-			this.collection.add(this.category); // this shall also trigger (re)render the row in the table
-			// save the model to the server
-			this.category.save();
-			console.log('Saved category cid='+this.category.cid);
+			if (!this.collection.contains(this.category)) this.collection.add(this.category); // add the category into the collection if it's a new category
+		 	this.category.save();
+		// 	console.log('Saved model cid='+this.category.cid);
 			this.category = null;
 		}
 	});

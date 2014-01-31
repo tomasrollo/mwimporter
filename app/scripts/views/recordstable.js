@@ -8,48 +8,57 @@ mwimporter.Views = mwimporter.Views || {};
 	mwimporter.Views.RecordstableView = Backbone.View.extend({
 
 		template: JST['app/scripts/templates/recordstable.ejs'],
-		rowTemplate: JST['app/scripts/templates/recordrow.ejs'],
 
+		events: {
+			"click .btnAddRecord": "newRecord",
+		},
 		initialize: function() {
-			_.bindAll(this, "renderRecordRow");
+			_.bindAll(this, "addRecord");
 			mwimporter.vent.on({
-				'records:add': this.renderRecordRow,
-				'records:change': this.renderRecordRow,
+				'records:add': this.addRecord,
 			});
+			// render the table for the first time - it will not change after that
+			this.$el.html(this.template());
 		},
 		render: function() {
-			this.$el.html(this.template());
 			return this;
 		},
-		renderRecordRow: function(record) {
-			var params = record.toJSON();
-			this.removeRecordRow(record);
-			this.$el.find('tbody').append(this.rowTemplate(params));
+		addRecord: function(record) {
+			var rowView = new mwimporter.Views.RecordrowView({model: record});
+			this.$el.find('tbody').append(rowView.render().el);
 		},
-		removeRecordRow: function(record) {
-			var id = (record.id !== undefined ? record.id : record.cid);
-			this.$el.find('input[value='+id+']').parents('tr').remove();
+		newRecord: function() {
+			var record = new mwimporter.Models.RecordModel({});
+			console.log("Adding a record, cid="+record.cid);
+			mwimporter.vent.trigger('record:new', record);
 		},
+	});
+
+	mwimporter.Views.RecordrowView = Backbone.View.extend({
+		
+		template: JST['app/scripts/templates/recordrow.ejs'],
+		
+		tagName: "tr",
+		
 		events: {
 			"click .btnEditRecord": "editRecord",
 			"click .btnDeleteRecord": "deleteRecord",
-			"click .btnLoadRecords": "loadRecords"
 		},
-		editRecord: function(e) {
-			var id = $(e.currentTarget).parents('tr').find('input.recordid').val();
-			var record = this.collection.get(id);
-			mwimporter.vent.trigger('record:edit', record);
+		
+		initialize: function() {
+			this.listenTo(this.model, "change", this.render);
+			this.listenTo(this.model, "destroy", this.remove);
 		},
-		deleteRecord: function(e) {
-			var id = $(e.currentTarget).parents('tr').find('input.recordid').val();
-			var record = this.collection.get(id);
-			console.log("Deleting record, cid="+record.cid);
-			record.destroy();
-			this.collection.remove(record);
-			this.removeRecordRow(record);
+		render: function() {
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
 		},
-		loadRecords: function() {
-			this.collection.fetch({update: true});
+		editRecord: function() {
+			this.model.edit();
+		},
+		deleteRecord: function() {
+			console.log("Deleting record, cid="+this.model.cid);
+			this.model.destroy();
 		},
 	});
 
