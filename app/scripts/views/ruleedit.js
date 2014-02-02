@@ -11,7 +11,7 @@ mwimporter.Views = mwimporter.Views || {};
 
 		initialize: function() {
 			// render and initiate the edit rule dialog from the template
-			this.$el.append(this.template()); // TODO: populate this with list of categories in the future and make it a dropdown box
+			this.$el.append(this.template());
 			$('#ruleEditDialog').modal({
 				keyboard: true,
 				show: false
@@ -20,7 +20,8 @@ mwimporter.Views = mwimporter.Views || {};
 			_.bindAll(this, "show");
 			mwimporter.vent.on({
 				'rule:new': this.show,
-				'rule:edit': this.show
+				'rule:edit': this.show,
+				'categories:sync': this.refreshCategorySelect,
 			});
 		},
 		events: {
@@ -40,7 +41,7 @@ mwimporter.Views = mwimporter.Views || {};
 			$('#ruleEditDialog input.payerDesc').val(rule.get("payerDesc"));
 			$('#ruleEditDialog input.payeeDesc').val(rule.get("payeeDesc"));
 			$('#ruleEditDialog input.avField1').val(rule.get("avField1"));
-			$('#ruleEditDialog input.category').val(rule.get("category"));
+			$('#ruleCategorySelect').val(rule.get("category"));
 			$('#ruleEditDialog input.payee').val(rule.get("payee"));
 			//show the dialog
 			$('#ruleEditDialog').modal('show');
@@ -61,14 +62,20 @@ mwimporter.Views = mwimporter.Views || {};
 				payerDesc: $('#ruleEditDialog input.payerDesc').val(),
 				payeeDesc: $('#ruleEditDialog input.payeeDesc').val(),
 				avField1: $('#ruleEditDialog input.avField1').val(),
-				category: $('#ruleEditDialog input.category').val(),
+				category: $('#ruleCategorySelect').val(),
 				payee: $('#ruleEditDialog input.payee').val()
 			});
 			$('#ruleEditDialog').modal('hide');
 			if (!this.collection.contains(this.rule)) this.collection.add(this.rule); // add the rule into the collection if it's a new rule
-		 	this.rule.save();
+			this.rule.save();
 		// 	console.log('Saved model cid='+this.rule.cid);
 			this.rule = null;
+		},
+		refreshCategorySelect: function() {
+			$('#ruleCategorySelect').empty();
+			mwimporter.categories.each(function(category) {
+				$('#ruleCategorySelect').append('<option value="'+category.id+'">'+category.get('name')+'</option>');
+			});
 		}
 	});
 

@@ -26,6 +26,10 @@ mwimporter.Models = mwimporter.Models || {};
 		initialize: function() {
 			// this.on('all', mwimporter.debug("rule"));
 			this.on('all', mwimporter.vent.setupTrigger('rule'));
+			_.bindAll(this, "removeCategory");
+			mwimporter.vent.on({
+				'category:remove': this.removeCategory,
+			});
 		},
 
 		validate: function(attrs, options) {
@@ -34,9 +38,11 @@ mwimporter.Models = mwimporter.Models || {};
 		parse: function(response, options)	{
 			return response;
 		},
-		
 		edit: function() {
 			mwimporter.vent.trigger('rule:edit', this);
+		},
+		removeCategory: function(category) {
+			if (this.get('category') == category.id) this.set('category', '');
 		}
 	});
 

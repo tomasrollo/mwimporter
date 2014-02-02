@@ -1,14 +1,14 @@
-<td><input type="text" value="<%=accountNumber %>"><span><%=accountNumber %></span></td>
-<td><input type="text" value="<%=accountName %>"><span><%=accountName %></span></td>
-<td><input type="text" value="<%=vs %>"><span><%=vs %></span></td>
-<td><input type="text" value="<%=ks %>"><span><%=ks %></span></td>
-<td><input type="text" value="<%=ss %>"><span><%=ss %></span></td>
-<td><input type="text" value="<%=systemDesc %>"><span><%=systemDesc %></span></td>
-<td><input type="text" value="<%=payerDesc %>"><span><%=payerDesc %></span></td>
-<td><input type="text" value="<%=payeeDesc %>"><span><%=payeeDesc %></span></td>
-<td><input type="text" value="<%=avField1 %>"><span><%=avField1 %></span></td>
-<td><input type="text" value="<%=category %>"><span><%=category %></span></td>
-<td><input type="text" value="<%=payee %>"><span><%=payee %></span></td>
+<td><span><%=accountNumber %></span></td>
+<td><span><%=accountName %></span></td>
+<td><span><%=vs %></span></td>
+<td><span><%=ks %></span></td>
+<td><span><%=ss %></span></td>
+<td><span><%=systemDesc %></span></td>
+<td><span><%=payerDesc %></span></td>
+<td><span><%=payeeDesc %></span></td>
+<td><span><%=avField1 %></span></td>
+<td><span class="ruleRowCategory<%= category == "ERROR" ? " text-danger" : ""%>"><%=category %></span></td>
+<td><span><%=payee %></span></td>
 <td>
 	<div class="btn-group">
 		<button class="btn btn-primary btnEditRule" type="button"><i class="glyphicon glyphicon-pencil"></i></button>

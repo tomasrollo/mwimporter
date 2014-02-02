@@ -49,9 +49,15 @@ mwimporter.Views = mwimporter.Views || {};
 		initialize: function() {
 			this.listenTo(this.model, "change", this.render);
 			this.listenTo(this.model, "destroy", this.remove);
+			_.bindAll(this, "updateCategoryName");
+			mwimporter.vent.on({
+				'category:change': this.updateCategoryName,
+			});
 		},
 		render: function() {
-			this.$el.html(this.template(this.model.toJSON()));
+			var ruleData = this.model.toJSON();
+			ruleData.category = mwimporter.categories.get(ruleData.category) === undefined ? "ERROR" : mwimporter.categories.get(ruleData.category).get('name');
+			this.$el.html(this.template(ruleData));
 			return this;
 		},
 		editRule: function() {
@@ -60,6 +66,9 @@ mwimporter.Views = mwimporter.Views || {};
 		deleteRule: function() {
 			console.log("Deleting rule, cid="+this.model.cid);
 			this.model.destroy();
+		},
+		updateCategoryName: function(category) {
+			if (this.model.get('category') == category.id) this.$el.find(".ruleRowCategory").html(category.get('name'));
 		},
 	});
 
