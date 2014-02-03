@@ -15,8 +15,9 @@ mwimporter.Views = mwimporter.Views || {};
 			"click .btnLoadIriFile": "loadIriFile",
 			"click .btnLoadTomasFile": "loadTomasFile",
 			"click .btnProcessFiles": "processFiles",
-			"click .btnGuessCategories": "guessCategories",
+			"click .btnApplyRules": "applyRules",
 			"click .btnDownloadResultFile": "downloadResultFile",
+			"click .btnClearRecords": "clearRecords",
 		},
 		parseCSV: function(data) {
 			var headers = [
@@ -89,8 +90,9 @@ mwimporter.Views = mwimporter.Views || {};
 			});
 		},
 		processFiles: function() {},
-		guessCategories: function() {},
-		downloadResultFile: function() {}
+		applyRules: function() {},
+		downloadResultFile: function() {},
+		clearRecords: function() {},
 	});
 
 })();
