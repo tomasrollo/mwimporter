@@ -7,8 +7,9 @@ mwimporter.Models = mwimporter.Models || {};
 
 	mwimporter.Models.RuleModel = Backbone.Model.extend({
 
-    url: '',
-    
+		url: '',
+		// comparator: 'priority',
+	
 		defaults: {
 			accountNumber: '',
 			accountName: '',

@@ -10,16 +10,13 @@ mwimporter.Collections = mwimporter.Collections || {};
 		localStorage: new Backbone.LocalStorage('Categories'),
 		
 		model: mwimporter.Models.CategoryModel,
+		comparator: 'name',
 
-    url: '/categories',
-    
+		url: '/categories',
+	
 		initialize: function() {
 			this.on('all', mwimporter.vent.setupTrigger('categories'));
 		},
-		
-		comparator: function(category) {
-			return category.get("name");
-		}
 	});
 
 })();

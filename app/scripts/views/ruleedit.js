@@ -26,7 +26,8 @@ mwimporter.Views = mwimporter.Views || {};
 		},
 		events: {
 			"click .btnRuleEditDialogSave": "saveRule",
-			"click .btnRuleEditDialogCancel": "cancelRuleEdit"
+			"click .btnRuleEditDialogCancel": "cancelRuleEdit",
+			"keypress input": "createOnEnter",
 		},
 		show: function(rule) {
 			this.rule = rule;
@@ -76,7 +77,11 @@ mwimporter.Views = mwimporter.Views || {};
 			mwimporter.categories.each(function(category) {
 				$('#ruleCategorySelect').append('<option value="'+category.id+'">'+category.get('name')+'</option>');
 			});
-		}
+		},
+		createOnEnter: function(e) {
+			if (e.keyCode != 13) return; // only react to ENTER
+			this.saveRule();
+		},
 	});
 
 })();

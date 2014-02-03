@@ -18,6 +18,7 @@ mwimporter.Models = mwimporter.Models || {};
 		},
 
 		validate: function(attrs, options) {
+			if (attrs.name == '') return "Category name cannot be empty";
 		},
 
 		parse: function(response, options)	{

@@ -45,12 +45,12 @@ window.mwimporter = {
 		this.fileControlView = new this.Views.FilecontrolView({
 			el: '#filesPane'
 		});
-    
-    // let's load all the collections
-    this.categories.fetch();
-    this.rules.fetch();
-    this.records.fetch();
-    
+	
+		// let's load all the collections
+		this.categories.fetch();
+		this.rules.fetch();
+		this.records.fetch();
+	
 		// let's render all the relevant views for the first time
 		this.rulestableView.render();
 		this.categoriestableView.render();
