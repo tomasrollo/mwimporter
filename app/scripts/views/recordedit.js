@@ -22,6 +22,7 @@ mwimporter.Views = mwimporter.Views || {};
 				'record:new': this.show,
 				'record:edit': this.show,
 				'categories:sync': this.refreshCategorySelect,
+				'accounts:sync': this.refreshTransfersSelect,
 			});
 		},
 		events: {
@@ -33,7 +34,7 @@ mwimporter.Views = mwimporter.Views || {};
 			console.log('started to edit record cid='+record.cid);
 			// populate the dialog with record data
 			$('#recordEditDialog input.account').val(record.get("account"));
-			$('#recordEditDialog input.transfers').val(record.get("transfers"));
+			$('#recordTransfersSelect').val(record.get("transfers"));
 			$('#recordEditDialog input.desc').val(record.get("desc"));
 			$('#recordEditDialog input.payee').val(record.get("payee"));
 			$('#recordCategorySelect').val(record.get("category"));
@@ -50,7 +51,7 @@ mwimporter.Views = mwimporter.Views || {};
 			// populate the rule model back from the record edit dialog
 			this.record.set({
 				account: $('#recordEditDialog input.account').val(),
-				transfers: $('#recordEditDialog input.transfers').val(),
+				transfers: $('#recordTransfersSelect').val(),
 				desc: $('#recordEditDialog input.desc').val(),
 				payee: $('#recordEditDialog input.payee').val(),
 				category: $('#recordCategorySelect').val(),
@@ -67,6 +68,12 @@ mwimporter.Views = mwimporter.Views || {};
 			$('#recordCategorySelect').empty();
 			mwimporter.categories.each(function(category) {
 				$('#recordCategorySelect').append('<option value="'+category.id+'">'+category.get('name')+'</option>');
+			});
+		},
+		refreshTransfersSelect: function() {
+			$('#recordTransfersSelect').empty();
+			mwimporter.accounts.each(function(account) {
+				$('#recordTransfersSelect').append('<option value="'+account.id+'">'+account.get('name')+'</option>');
 			});
 		},
 	});

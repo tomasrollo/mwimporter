@@ -51,10 +51,12 @@ mwimporter.Views = mwimporter.Views || {};
 			_.bindAll(this, "updateCategoryName");
 			mwimporter.vent.on({
 				'category:change': this.updateCategoryName,
+				'account:change': this.updateTransfersName,
 			});
 		},
 		render: function() {
 			var recordData = this.model.toJSON();
+			recordData.transfers = mwimporter.accounts.get(recordData.transfers) === undefined ? "ERROR" : mwimporter.accounts.get(recordData.transfers).get('name');
 			recordData.category = mwimporter.categories.get(recordData.category) === undefined ? "ERROR" : mwimporter.categories.get(recordData.category).get('name');
 			this.$el.html(this.template(recordData));
 			return this;
@@ -68,6 +70,9 @@ mwimporter.Views = mwimporter.Views || {};
 		},
 		updateCategoryName: function(category) {
 			if (this.model.get('category') == category.id) this.$el.find(".recordRowCategory").html(category.get('name'));
+		},
+		updateTransfersName: function(account) {
+			if (this.model.get('account') == account.id) this.$el.find(".recordRowTransfers").html(account.get('name'));
 		},
 	});
 
