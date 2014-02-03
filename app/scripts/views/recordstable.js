@@ -48,9 +48,15 @@ mwimporter.Views = mwimporter.Views || {};
 		initialize: function() {
 			this.listenTo(this.model, "change", this.render);
 			this.listenTo(this.model, "destroy", this.remove);
+			_.bindAll(this, "updateCategoryName");
+			mwimporter.vent.on({
+				'category:change': this.updateCategoryName,
+			});
 		},
 		render: function() {
-			this.$el.html(this.template(this.model.toJSON()));
+			var recordData = this.model.toJSON();
+			recordData.category = mwimporter.categories.get(recordData.category) === undefined ? "ERROR" : mwimporter.categories.get(recordData.category).get('name');
+			this.$el.html(this.template(recordData));
 			return this;
 		},
 		editRecord: function() {
@@ -59,6 +65,9 @@ mwimporter.Views = mwimporter.Views || {};
 		deleteRecord: function() {
 			console.log("Deleting record, cid="+this.model.cid);
 			this.model.destroy();
+		},
+		updateCategoryName: function(category) {
+			if (this.model.get('category') == category.id) this.$el.find(".recordRowCategory").html(category.get('name'));
 		},
 	});
 

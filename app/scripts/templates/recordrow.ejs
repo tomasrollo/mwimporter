@@ -1,10 +1,10 @@
-<td:<input type="text" value="<%=account %>"><span><%=account %></span></td>
-<td><input type="text" value="<%=transfers %>"><span><%=transfers %></span></td>
-<td><input type="text" value="<%=desc %>"><span><%=desc %></span></td>
-<td><input type="text" value="<%=payee %>"><span><%=payee %></span></td>
-<td><input type="text" value="<%=category %>"><span><%=category %></span></td>
-<td><input type="text" value="<%=date %>"><span><%=date %></span></td>
-<td><input type="text" value="<%=amount %>"><span><%=amount %></span></td>
+<td><span><%=account %></span></td>
+<td><span><%=transfers %></span></td>
+<td><span><%=desc %></span></td>
+<td><span><%=payee %></span></td>
+<td><span class="recordRowCategory<%= category == "ERROR" ? " text-danger" : ""%>"><%=category %></span></td>
+<td><span><%=date %></span></td>
+<td><span><%=amount %></span></td>
 <td>
 	<div class="btn-group">
 		<button class="btn btn-primary btnEditRecord" type="button"><i class="glyphicon glyphicon-pencil"></i></button>

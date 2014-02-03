@@ -20,7 +20,8 @@ mwimporter.Views = mwimporter.Views || {};
 			_.bindAll(this, "show");
 			mwimporter.vent.on({
 				'record:new': this.show,
-				'record:edit': this.show
+				'record:edit': this.show,
+				'categories:sync': this.refreshCategorySelect,
 			});
 		},
 		events: {
@@ -35,7 +36,7 @@ mwimporter.Views = mwimporter.Views || {};
 			$('#recordEditDialog input.transfers').val(record.get("transfers"));
 			$('#recordEditDialog input.desc').val(record.get("desc"));
 			$('#recordEditDialog input.payee').val(record.get("payee"));
-			$('#recordEditDialog input.category').val(record.get("category"));
+			$('#recordCategorySelect').val(record.get("category"));
 			$('#recordEditDialog input.date').val(record.get("date"));
 			$('#recordEditDialog input.amount').val(record.get("amount"));
 			//show the dialog
@@ -52,7 +53,7 @@ mwimporter.Views = mwimporter.Views || {};
 				transfers: $('#recordEditDialog input.transfers').val(),
 				desc: $('#recordEditDialog input.desc').val(),
 				payee: $('#recordEditDialog input.payee').val(),
-				category: $('#recordEditDialog input.category').val(),
+				category: $('#recordCategorySelect').val(),
 				date: $('#recordEditDialog input.date').val(),
 				amount: $('#recordEditDialog input.amount').val(),
 			});
@@ -61,7 +62,13 @@ mwimporter.Views = mwimporter.Views || {};
 		 	this.record.save();
 		// 	console.log('Saved model cid='+this.record.cid);
 			this.record = null;
-		}
+		},
+		refreshCategorySelect: function() {
+			$('#recordCategorySelect').empty();
+			mwimporter.categories.each(function(category) {
+				$('#recordCategorySelect').append('<option value="'+category.id+'">'+category.get('name')+'</option>');
+			});
+		},
 	});
 
 })();
