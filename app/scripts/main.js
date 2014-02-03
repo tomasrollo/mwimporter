@@ -10,6 +10,7 @@ window.mwimporter = {
 		console.log('Hello from mwimporter!');
 		
 		// instantiate all the collections
+		this.accounts = new this.Collections.AccountsCollection();
 		this.rules = new this.Collections.RulesCollection();
 		this.categories = new this.Collections.CategoriesCollection();
 		this.records = new this.Collections.RecordsCollection();
@@ -47,6 +48,7 @@ window.mwimporter = {
 		});
 	
 		// let's load all the collections
+		this.accounts.fetch();
 		this.categories.fetch();
 		this.rules.fetch();
 		this.records.fetch();
