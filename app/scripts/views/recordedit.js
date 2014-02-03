@@ -33,7 +33,6 @@ mwimporter.Views = mwimporter.Views || {};
 			this.record = record;
 			console.log('started to edit record cid='+record.cid);
 			// populate the dialog with record data
-			$('#recordEditDialog input.account').val(record.get("account"));
 			$('#recordTransfersSelect').val(record.get("transfers"));
 			$('#recordEditDialog input.desc').val(record.get("desc"));
 			$('#recordEditDialog input.payee').val(record.get("payee"));
@@ -50,7 +49,6 @@ mwimporter.Views = mwimporter.Views || {};
 			console.log('Saving record cid='+this.record.cid);
 			// populate the rule model back from the record edit dialog
 			this.record.set({
-				account: $('#recordEditDialog input.account').val(),
 				transfers: $('#recordTransfersSelect').val(),
 				desc: $('#recordEditDialog input.desc').val(),
 				payee: $('#recordEditDialog input.payee').val(),
