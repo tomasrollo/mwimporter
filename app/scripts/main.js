@@ -63,7 +63,8 @@ window.mwimporter = {
 		$('#categoriesPanel').collapse('hide');
 		$('#rulesPanel').collapse('hide');
 		$('#rulesPanel').collapse('hide');
-
+		
+		mwimporter.fileDetails = {};
 	}
 };
 

@@ -2,9 +2,26 @@
 
 mwimporter.Views = mwimporter.Views || {};
 
+DATUM_SPLATNOSTI = "Datum splatnosti";
+DATUM_ODEPSANI = "Datum odepsání z jiné banky";
+PROTIUCET_CISLO = "Protiúčet a kód banky";
+PROTIUCET_NAZEV = "Název protiúčtu";
+CASTKA = "Částka";
+VS = "VS";
+KS = "KS";
+SS = "SS";
+ID_TRANSAKCE = "Identifikace transakce";
+POPIS_SYSTEM = "Systémový popis";
+POPIS_PRIKAZCE = "Popis příkazce";
+POPIS_PRIJEMCE = "Popis pro příjemce";
+AV1 = "AV pole 1";
+AV2 = "AV pole 2";
+AV3 = "AV pole 3";
+AV4 = "AV pole 4";
+
 (function () {
 	'use strict';
-
+	
 	mwimporter.Views.FilecontrolView = Backbone.View.extend({
 
 		template: JST['app/scripts/templates/filecontrol.ejs'],
@@ -19,77 +36,55 @@ mwimporter.Views = mwimporter.Views || {};
 			"click .btnDownloadResultFile": "downloadResultFile",
 			"click .btnClearRecords": "clearRecords",
 		},
+		loadIriFile: function() { this.loadFile('iri'); },
+		loadTomasFile: function() { this.loadFile('tomas'); },
 		parseCSV: function(data) {
-			var headers = [
-				"Datum splatnosti",
-				"Datum odepsani z jine banky",
-				"Protiucet a kod banky",
-				"Nazev protiuctu",
-				"Castka",
-				"VS",
-				"KS",
-				"SS",
-				"Identifikace transakce",
-				"Systemovy popis",
-				"Popis prikazce",
-				"Popis pro prijemce",
-				"AV pole 1",
-				"AV pole 2",
-				"AV pole 3",
-				"AV pole 4"
-			];
-			var transactions = [];
 			var rows = data.split('\r\n');
-			if (rows[0] != "MojeBanka, export transakcni historie;") throw "wrong file format";
-			console.log(rows.slice(0,5));
-			_.map(rows.slice(17), function(row) {
-				var fields = row.split(';').slice(0,-1);
-				console.log(fields);
-				if (headers.length != fields.length) throw "headers.length != fields.length: "+headers.length+" != "+fields.length;
-				transactions.push(_.object(headers, fields));
-			});
-			if (transactions.length > 0) console.log(transactions);
-			return transactions;
+			if (rows[0] != '"MojeBanka, export transakční historie";') throw "wrong file format";
+			console.log(rows.slice(0,16));
+			var csvOptions = {separator: ';'};
+			var fileDetails = {
+				startBalance: $.csv.toArray(rows[12], csvOptions)[1],
+				endBalance: $.csv.toArray(rows[15], csvOptions)[1],
+				received: $.csv.toArray(rows[14], csvOptions)[1],
+				sent: $.csv.toArray(rows[13], csvOptions)[1],
+				transactions: $.csv.toObjects(rows.slice(17).join('\n'), csvOptions),
+			};
+			return fileDetails;
 		},
-		loadIriFile: function() {
-			var statusEl = this.$el.find(".iriFileStatus");
-			var csvPath = this.$el.find("#iricsvurl").first().val();
+		loadFile: function(who) {
+			if (who != 'tomas' && who != 'iri') {
+				console.error("who must be iri or tomas");
+				return;
+			}
+			var statusEl = this.$el.find("."+who+"FileStatus");
+			var csvPath = this.$el.find("#"+who+"csvurl").first().val();
 			console.log("Loading file "+csvPath);
 			statusEl.text('Loading file '+csvPath).removeClass().addClass('text-info');
 			var self = this;
-			$.get(csvPath).done(function(data) {
-				try {
-					mwimporter.iriTransactions = self.parseCSV(data);
-					statusEl.text('Success!').removeClass().addClass('text-success');
-				} catch(err) {
-					console.error(err);
-					statusEl.text('Error parsing file: '+err).removeClass().addClass('text-error');
+			$.ajax({
+				url: csvPath,
+				beforeSend: function(xhr) {
+					xhr.overrideMimeType("text/plain; charset=windows-1250");
 				}
-			}).fail(function(err) {
-				console.error("$.get failed: "+err.toString());
-				statusEl.text('Error getting file: '+err.toString()).removeClass().addClass('text-error');
+			})
+			.done(function(data) {
+					try {
+						mwimporter.fileDetails[who] = self.parseCSV(data);
+						statusEl.text('Success!').removeClass().addClass('text-success');
+					} catch(err) {
+						console.error(err);
+						statusEl.text('Error parsing file: '+err).removeClass().addClass('text-error');
+					}
+			})
+			.fail(function(err) {
+					console.error("$.ajax failed: "+err.toString());
+					statusEl.text('Error getting file: '+err.toString()).removeClass().addClass('text-error');
 			});
 		},
-		loadTomasFile: function() {
-			var statusEl = this.$el.find(".tomasFileStatus");
-			var csvPath = this.$el.find("#tomascsvurl").first().val();
-			console.log("Loading file "+csvPath);
-			statusEl.text('Loading file '+csvPath).removeClass().addClass('text-info');
-			var self = this;
-			$.get(csvPath).done(function(data) {
-				try {
-					mwimporter.tomasTransactions = self.parseCSV(data);
-					statusEl.text('Success!').removeClass().addClass('text-success');
-				} catch(err) {
-					console.error(err);
-					statusEl.text('Error parsing file: '+err).removeClass().addClass('text-error');
-				}
-			}).fail(function(err) {
-				console.error("$.get failed: "+err.toString());
-				statusEl.text('Error getting file: '+err.toString()).removeClass().addClass('text-error');
-			});
+		processFiles: function() {
+			
 		},
-		processFiles: function() {},
 		applyRules: function() {},
 		downloadResultFile: function() {},
 		clearRecords: function() {},
