@@ -14,13 +14,24 @@ mwimporter.Models = mwimporter.Models || {};
 		},
 
 		defaults: {
+			date: '',
 			account: '',
 			transfers: '',
+			// desc start
 			desc: '',
+			payee_account: '',
+			payee_account_name: '',
+			vs: '',
+			ks: '',
+			ss: '',
+			desc_system: '',
+			desc_payer: '',
+			desc_payee: '',
+			av: '',
+			// desc end
 			payee: '',
 			category: '',
-			date: '',
-			amount: ''
+			amount: '',
 		},
 
 		validate: function(attrs, options) {

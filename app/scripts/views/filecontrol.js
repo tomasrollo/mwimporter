@@ -41,7 +41,7 @@ AV4 = "AV pole 4";
 		parseCSV: function(data) {
 			var rows = data.split('\r\n');
 			if (rows[0] != '"MojeBanka, export transakční historie";') throw "wrong file format";
-			console.log(rows.slice(0,16));
+			// console.log(rows.slice(0,16));
 			var csvOptions = {separator: ';'};
 			var fileDetails = {
 				startBalance: $.csv.toArray(rows[12], csvOptions)[1],
@@ -83,11 +83,45 @@ AV4 = "AV pole 4";
 			});
 		},
 		processFiles: function() {
-			
+			if (mwimporter.fileDetails['iri'] === undefined || mwimporter.fileDetails['tomas'] === undefined) {
+				alert("Please load both files"); // TODO add better error handling
+				return;
+			}
+			var self = this;
+			_(['iri','tomas']).each(function(who) {
+				console.log('Mapping '+who+' transactions to records');
+				_(mwimporter.fileDetails[who].transactions).each(function(t) {
+					mwimporter.records.create({
+						date: t[DATUM_SPLATNOSTI],
+						account: who == 'iri' ? 'Iri KB' : 'Tomas KB',
+						transfers: self.detectTransfer(who, t[PROTIUCET_CISLO]),
+						// desc start
+						payee_account: t[PROTIUCET_CISLO],
+						payee_account_name: t[PROTIUCET_NAZEV],
+						vs: t[VS],
+						ks: t[KS],
+						ss: t[SS],
+						desc_system: t[POPIS_SYSTEM],
+						desc_payer: t[POPIS_PRIKAZCE],
+						desc_payee: t[POPIS_PRIJEMCE],
+						av: $.trim($.trim(t[AV1])+' '+$.trim(t[AV2])+' '+$.trim(t[AV3])+' '+$.trim(t[AV4])),
+						// desc end
+						amount: t[CASTKA],
+					});
+				});
+			});
+		},
+		detectTransfer: function(payer, payee) {
+			return ''
 		},
 		applyRules: function() {},
 		downloadResultFile: function() {},
-		clearRecords: function() {},
+		clearRecords: function() {
+			mwimporter.records.reset();
+			// mwimporter.records.each(function(record) {
+			// 	record.destroy();
+			// });
+		},
 	});
 
 })();

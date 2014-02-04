@@ -33,11 +33,11 @@ mwimporter.Views = mwimporter.Views || {};
 			this.record = record;
 			console.log('started to edit record cid='+record.cid);
 			// populate the dialog with record data
-			$('#recordTransfersSelect').val(record.get("transfers"));
-			$('#recordEditDialog input.desc').val(record.get("desc"));
-			$('#recordEditDialog input.payee').val(record.get("payee"));
-			$('#recordCategorySelect').val(record.get("category"));
 			$('#recordEditDialog input.date').val(record.get("date"));
+			$('#recordTransfersSelect').val(record.get("transfers"));
+			$('#recordEditDialog input.payee').val(record.get("payee"));
+			$('#recordEditDialog input.desc').val(record.get("desc"));
+			$('#recordCategorySelect').val(record.get("category"));
 			$('#recordEditDialog input.amount').val(record.get("amount"));
 			//show the dialog
 			$('#recordEditDialog').modal('show');
@@ -49,11 +49,11 @@ mwimporter.Views = mwimporter.Views || {};
 			console.log('Saving record cid='+this.record.cid);
 			// populate the rule model back from the record edit dialog
 			this.record.set({
-				transfers: $('#recordTransfersSelect').val(),
-				desc: $('#recordEditDialog input.desc').val(),
-				payee: $('#recordEditDialog input.payee').val(),
-				category: $('#recordCategorySelect').val(),
 				date: $('#recordEditDialog input.date').val(),
+				transfers: $('#recordTransfersSelect').val(),
+				payee: $('#recordEditDialog input.payee').val(),
+				desc: $('#recordEditDialog input.desc').val(),
+				category: $('#recordCategorySelect').val(),
 				amount: $('#recordEditDialog input.amount').val(),
 			});
 			$('#recordEditDialog').modal('hide');

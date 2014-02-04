@@ -1,7 +1,21 @@
 <td><span><%=date %></span></td>
-<td><span><%=account %></span></td>
-<td><span class="recordRowTransfers<%= transfers == "ERROR" ? " text-danger" : ""%>"><span><%=transfers %></span></td>
-<td><span><%=desc %></span></td>
+<td>
+	<span><%=account %></span><br>
+	<span class="recordRowTransfers<%= transfers == "ERROR" ? " text-danger" : ""%>"><span><%=transfers %></span>
+</td>
+<td><span>
+	<% if (desc != '') { %><abbr title="Description">D:</abbr> <%=desc %><br><% } %>
+	<% if (payee_account != '') { %><abbr title="Protiúčet">P:</abbr> <%=payee_account %><br><% } %>
+	<% if (payee_account_name != '') { %><abbr title="Název protiúčtu">NP:</abbr> <%=payee_account_name %><br><% } %>
+	<% if (vs != '') { %><abbr title="Variabilní symbol">VS:</abbr> <%=vs %> <% } %>
+	<% if (ks != '') { %><abbr title="Konstantní symbol">KS:</abbr> <%=ks %> <% } %>
+	<% if (ss != '') { %><abbr title="Specifickí symbol">SS:</abbr> <%=ss %> <% } %>
+	<% if (vs != '' || ks != '' || ss != '') { %><br><% } %>
+	<% if (desc_system != '') { %><abbr title="Systémový popis">SP:</abbr> <%=desc_system %><br><% } %>
+	<% if (desc_payer != '') { %><abbr title="Popis příkazce">PP:</abbr> <%=desc_payer %><br><% } %>
+	<% if (desc_payee != '') { %><abbr title="Popis pro příjemce">PPP:</abbr> <%=desc_payee %><br><% } %>
+	<% if (av != '') { %><abbr title="AV">AV:</abbr> <%=av %><% } %>
+</span></td>
 <td><span><%=payee %></span></td>
 <td><span class="recordRowCategory<%= category == "ERROR" ? " text-danger" : ""%>"><%=category %></span></td>
 <td><span><%=amount %> CZK</span></td>

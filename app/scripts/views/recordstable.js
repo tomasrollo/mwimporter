@@ -13,9 +13,10 @@ mwimporter.Views = mwimporter.Views || {};
 			"click .btnAddRecord": "newRecord",
 		},
 		initialize: function() {
-			_.bindAll(this, "addRecord");
+			_.bindAll(this, "addRecord", "emptyTable");
 			mwimporter.vent.on({
 				'records:add': this.addRecord,
+				'records:reset': this.emptyTable,
 			});
 			// render the table for the first time - it will not change after that
 			this.$el.html(this.template());
@@ -31,6 +32,9 @@ mwimporter.Views = mwimporter.Views || {};
 			var record = new mwimporter.Models.RecordModel({});
 			console.log("Adding a record, cid="+record.cid);
 			mwimporter.vent.trigger('record:new', record);
+		},
+		emptyTable: function() {
+			this.$el.html(this.template());
 		},
 	});
 
@@ -48,7 +52,7 @@ mwimporter.Views = mwimporter.Views || {};
 		initialize: function() {
 			this.listenTo(this.model, "change", this.render);
 			this.listenTo(this.model, "destroy", this.remove);
-			_.bindAll(this, "updateCategoryName");
+			_.bindAll(this, "updateCategoryName", "updateTransfersName");
 			mwimporter.vent.on({
 				'category:change': this.updateCategoryName,
 				'account:change': this.updateTransfersName,
