@@ -4,7 +4,7 @@ mwimporter.Views = mwimporter.Views || {};
 
 DATUM_SPLATNOSTI = "Datum splatnosti";
 DATUM_ODEPSANI = "Datum odepsání z jiné banky";
-PROTIUCET_CISLO = "Protiúčet a kód banky";
+PROTIUCET_CISLO = "Protiúčet a\xA0kód banky";
 PROTIUCET_NAZEV = "Název protiúčtu";
 CASTKA = "Částka";
 VS = "VS";
