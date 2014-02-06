@@ -117,10 +117,7 @@ AV4 = "AV pole 4";
 		applyRules: function() {},
 		downloadResultFile: function() {},
 		clearRecords: function() {
-			mwimporter.records.reset();
-			// mwimporter.records.each(function(record) {
-			// 	record.destroy();
-			// });
+			for (var i = mwimporter.records.length - 1; i >= 0; i--) mwimporter.records.at(i).destroy();
 		},
 	});
 
