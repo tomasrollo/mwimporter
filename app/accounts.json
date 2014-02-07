@@ -1,0 +1,37 @@
+[
+  {
+    "name":"",
+    "id":"c6f59631-60e9-a091-e4ad-5adfffe25b5e",
+    "number":""
+  },
+  {
+    "name":"Cash",
+    "id":"4a6fbc87-693d-0d3b-3652-213c869633f3",
+    "number":""
+  },
+  {
+    "name":"ING",
+    "id":"bcafcb54-7239-4aff-0379-77da3583c33a",
+    "number":"4241100/3500"
+  },
+  {
+    "name":"Iri KB",
+    "id":"4c0f0924-1cc7-091e-e66c-9d7d2fa173da",
+    "number":"51-2830720217/0100"
+  },
+  {
+    "name":"Test account 1",
+    "id":"9a229f0f-0cfd-e9fc-e1f5-4dc9a868e3de",
+    "number":""
+  },
+  {
+    "name":"Test account 2",
+    "id":"581638ad-c8d3-3a50-867d-6c5507cd05e8",
+    "number":""
+  },
+  {
+    "name":"Tomas KB",
+    "id":"0854e6b7-6eac-85fc-3581-5c1cc7163093",
+    "number":"51-117800247/0100"
+  }
+]
