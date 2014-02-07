@@ -14,7 +14,8 @@ mwimporter.Models = mwimporter.Models || {};
         },
 
         defaults: {
-			name: ''
+			name: '',
+			number: ''
         },
 
         validate: function(attrs, options) {

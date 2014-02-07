@@ -61,7 +61,7 @@ mwimporter.Views = mwimporter.Views || {};
 		render: function() {
 			var recordData = this.model.toJSON();
 			recordData.transfers = mwimporter.accounts.get(recordData.transfers) === undefined ? "ERROR" : mwimporter.accounts.get(recordData.transfers).get('name');
-			recordData.category = mwimporter.categories.get(recordData.category) === undefined ? "ERROR" : mwimporter.categories.get(recordData.category).get('name');
+			recordData.category = mwimporter.categories.get(recordData.category) === undefined ? "NOT ASSIGNED" : mwimporter.categories.get(recordData.category).get('name');
 			this.$el.html(this.template(recordData));
 			return this;
 		},

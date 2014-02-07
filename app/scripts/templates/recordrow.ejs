@@ -1,7 +1,7 @@
 <td><span><%=date %></span></td>
 <td>
 	<span><%=account %></span><br>
-	<span class="recordRowTransfers<%= transfers == "ERROR" ? " text-danger" : ""%>"><span><%=transfers %></span>
+	<span class="recordRowTransfers<%= transfers == "NOT ASSIGNED" ? " text-danger" : ""%>"><span><%=transfers %></span>
 </td>
 <td><span>
 	<% if (desc != '') { %><abbr title="Description">D:</abbr> <%=desc %><br><% } %>

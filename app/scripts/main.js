@@ -68,9 +68,11 @@ window.mwimporter = {
 	}
 };
 
+var DEBUG_VENT = true;
+
 window.mwimporter.debug = function(name) {
 	return function() {
-		console.log(name+' '+arguments[0], Array.prototype.slice.apply(arguments, [1]));
+		if (DEBUG_VENT) console.log(name+' '+arguments[0], Array.prototype.slice.apply(arguments, [1]));
 	};
 };
 

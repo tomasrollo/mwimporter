@@ -2,22 +2,22 @@
 
 mwimporter.Views = mwimporter.Views || {};
 
-DATUM_SPLATNOSTI = "Datum splatnosti";
-DATUM_ODEPSANI = "Datum odepsání z jiné banky";
-PROTIUCET_CISLO = "Protiúčet a\xA0kód banky";
-PROTIUCET_NAZEV = "Název protiúčtu";
-CASTKA = "Částka";
-VS = "VS";
-KS = "KS";
-SS = "SS";
-ID_TRANSAKCE = "Identifikace transakce";
-POPIS_SYSTEM = "Systémový popis";
-POPIS_PRIKAZCE = "Popis příkazce";
-POPIS_PRIJEMCE = "Popis pro příjemce";
-AV1 = "AV pole 1";
-AV2 = "AV pole 2";
-AV3 = "AV pole 3";
-AV4 = "AV pole 4";
+var DATUM_SPLATNOSTI = "Datum splatnosti";
+var DATUM_ODEPSANI = "Datum odepsání z jiné banky";
+var PROTIUCET_CISLO = "Protiúčet a\xA0kód banky";
+var PROTIUCET_NAZEV = "Název protiúčtu";
+var CASTKA = "Částka";
+var VS = "VS";
+var KS = "KS";
+var SS = "SS";
+var ID_TRANSAKCE = "Identifikace transakce";
+var POPIS_SYSTEM = "Systémový popis";
+var POPIS_PRIKAZCE = "Popis příkazce";
+var POPIS_PRIJEMCE = "Popis pro příjemce";
+var AV1 = "AV pole 1";
+var AV2 = "AV pole 2";
+var AV3 = "AV pole 3";
+var AV4 = "AV pole 4";
 
 (function () {
 	'use strict';
@@ -36,8 +36,8 @@ AV4 = "AV pole 4";
 			"click .btnDownloadResultFile": "downloadResultFile",
 			"click .btnClearRecords": "clearRecords",
 		},
-		loadIriFile: function() { this.loadFile('iri'); },
-		loadTomasFile: function() { this.loadFile('tomas'); },
+		loadIriFile: function() { this.loadFile('Iri KB'); },
+		loadTomasFile: function() { this.loadFile('Tomas KB'); },
 		parseCSV: function(data) {
 			var rows = data.split('\r\n');
 			if (rows[0] != '"MojeBanka, export transakční historie";') throw "wrong file format";
@@ -53,12 +53,12 @@ AV4 = "AV pole 4";
 			return fileDetails;
 		},
 		loadFile: function(who) {
-			if (who != 'tomas' && who != 'iri') {
-				console.error("who must be iri or tomas");
+			if (who != 'Tomas KB' && who != 'Iri KB') {
+				console.error("who must be Iri KB or Tomas KB");
 				return;
 			}
-			var statusEl = this.$el.find("."+who+"FileStatus");
-			var csvPath = this.$el.find("#"+who+"csvurl").first().val();
+			var statusEl = this.$el.find("."+(who == 'Iri KB' ? 'iri' : 'tomas')+"FileStatus");
+			var csvPath = this.$el.find("#"+(who == 'Iri KB' ? 'iri' : 'tomas')+"csvurl").first().val();
 			console.log("Loading file "+csvPath);
 			statusEl.text('Loading file '+csvPath).removeClass().addClass('text-info');
 			var self = this;
@@ -83,18 +83,56 @@ AV4 = "AV pole 4";
 			});
 		},
 		processFiles: function() {
-			if (mwimporter.fileDetails['iri'] === undefined || mwimporter.fileDetails['tomas'] === undefined) {
+			if (mwimporter.fileDetails['Iri KB'] === undefined || mwimporter.fileDetails['Tomas KB'] === undefined) {
 				alert("Please load both files"); // TODO add better error handling
 				return;
 			}
+			
+			var noAccount = mwimporter.accounts.findWhere({name: ''});
+			if (!noAccount) throw 'default no-account does not exist';
+			var ownAccount;
+			
+			var detectTransfer = function(payee) {
+				if (payee == '') {
+					// console.log('no payee provided, returning noAccount');
+					return noAccount.id; // default empty transfer account for payees not found
+				}
+				var payeeAccount = mwimporter.accounts.findWhere({number: payee});
+				if (!payeeAccount) {
+					// console.log('payeeAccount not found, returning noAccount');
+					return noAccount.id; // default empty transfer account for payees not found
+				}
+				var ownAccountName = ownAccount.get('name');
+				var payeeAccountName = payeeAccount.get('name');
+				// console.log(ownAccountName+' '+payeeAccountName);
+				if (
+					(ownAccountName == 'Iri KB' && payeeAccountName == 'Tomas KB')
+					|| (ownAccountName == 'Iri KB' && payeeAccountName == 'ING')
+					|| (ownAccountName == 'Tomas KB' && payeeAccountName == 'Iri KB')
+					|| (ownAccountName == 'Tomas KB' && payeeAccountName == 'ING')
+					|| (ownAccountName == 'ING' && payeeAccountName == 'Iri KB')
+					|| (ownAccountName == 'ING' && payeeAccountName == 'Tomas KB')
+				) {
+					// console.log('found match, returning payeeAccount');
+					return payeeAccount.id;
+				}
+				// console.log('no match found, returning noAccount by default');
+				return noAccount.id;
+			};
+			
+			
 			var self = this;
-			_(['iri','tomas']).each(function(who) {
+			_(['Iri KB','Tomas KB']).each(function(who) {
 				console.log('Mapping '+who+' transactions to records');
+				
+				ownAccount = mwimporter.accounts.findWhere({name: who});
+				if (!ownAccount) throw 'no account number defined for '+who;
+				
 				_(mwimporter.fileDetails[who].transactions).each(function(t) {
 					mwimporter.records.create({
 						date: t[DATUM_SPLATNOSTI],
-						account: who == 'iri' ? 'Iri KB' : 'Tomas KB',
-						transfers: self.detectTransfer(who, t[PROTIUCET_CISLO]),
+						account: who,
+						transfers: detectTransfer(t[PROTIUCET_CISLO]),
 						// desc start
 						payee_account: t[PROTIUCET_CISLO],
 						payee_account_name: t[PROTIUCET_NAZEV],
@@ -110,9 +148,8 @@ AV4 = "AV pole 4";
 					});
 				});
 			});
-		},
-		detectTransfer: function(payer, payee) {
-			return ''
+			mwimporter.oldFileDetails = mwimporter.fileDetails;
+			delete mwimporter.fileDetails;
 		},
 		applyRules: function() {},
 		downloadResultFile: function() {},
