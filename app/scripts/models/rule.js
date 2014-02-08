@@ -11,15 +11,15 @@ mwimporter.Models = mwimporter.Models || {};
 		// comparator: 'priority',
 	
 		defaults: {
-			accountNumber: '',
-			accountName: '',
+			payee_account: '',
+			payee_account_name: '',
 			vs: '',
 			ks: '',
 			ss: '',
-			systemDesc: '',
-			payerDesc: '',
-			payeeDesc: '',
-			avField1: '',
+			desc_system: '',
+			desc_payer: '',
+			desc_payee: '',
+			av: '',
 			category: '',
 			payee: ''
 		},

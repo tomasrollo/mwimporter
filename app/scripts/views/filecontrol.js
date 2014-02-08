@@ -151,7 +151,36 @@ var AV4 = "AV pole 4";
 			mwimporter.oldFileDetails = mwimporter.fileDetails;
 			delete mwimporter.fileDetails;
 		},
-		applyRules: function() {},
+		applyRules: function() {
+			mwimporter.rules.each(function(rule) {
+				// TODO - support regular expressions
+				// see which fields to match
+				var category = rule.get('category');
+				var payee = rule.get('payee');
+				var fields = _.chain(rule.attributes).map(function(value, key) {
+					if (value !== '' && key !== 'category' && key !== 'payee' && key !== 'id') {
+						return {name: key, value: value};
+					}
+				}).filter(function(result) { return result !== undefined; }).value();
+				// console.log(fields);
+				mwimporter.records.each(function(record) {
+					var checked = _(fields).all(function(field) {
+						var recordValue = record.get(field.name);
+						if (recordValue === undefined) throw "cannot get attribute "+field.name+' of record id='+record.id;
+						if (_(['ss','ks','vs']).contains(field.name)) { // exact match for SS, VS and KS
+							return (field.value == recordValue);
+						}
+						// for the rest do 'contains' check
+						return recordValue.toLowerCase().indexOf(field.value.toLowerCase()) !== -1;
+					});
+					if (checked) {
+						if (category !== '') record.set('category', category); // set record category only if it's filled in the rule - some rules might set only a payee
+						if (payee !== '') record.set('payee', payee); // ditto for payee
+						record.save();
+					}
+				});
+			});
+		},
 		downloadResultFile: function() {},
 		clearRecords: function() {
 			for (var i = mwimporter.records.length - 1; i >= 0; i--) mwimporter.records.at(i).destroy();

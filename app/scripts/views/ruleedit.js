@@ -33,15 +33,15 @@ mwimporter.Views = mwimporter.Views || {};
 			this.rule = rule;
 			console.log('started to edit model cid='+rule.cid);
 			// populate the dialog with rule data
-			$('#ruleEditDialog input.accountNumber').val(rule.get("accountNumber"));
-			$('#ruleEditDialog input.accountName').val(rule.get("accountName"));
+			$('#ruleEditDialog input.payee_account').val(rule.get("payee_account"));
+			$('#ruleEditDialog input.payee_account_name').val(rule.get("payee_account_name"));
 			$('#ruleEditDialog input.vs').val(rule.get("vs"));
 			$('#ruleEditDialog input.ks').val(rule.get("ks"));
 			$('#ruleEditDialog input.ss').val(rule.get("ss"));
-			$('#ruleEditDialog input.systemDesc').val(rule.get("systemDesc"));
-			$('#ruleEditDialog input.payerDesc').val(rule.get("payerDesc"));
-			$('#ruleEditDialog input.payeeDesc').val(rule.get("payeeDesc"));
-			$('#ruleEditDialog input.avField1').val(rule.get("avField1"));
+			$('#ruleEditDialog input.desc_system').val(rule.get("desc_system"));
+			$('#ruleEditDialog input.desc_payer').val(rule.get("desc_payer"));
+			$('#ruleEditDialog input.desc_payee').val(rule.get("desc_payee"));
+			$('#ruleEditDialog input.av').val(rule.get("av"));
 			$('#ruleCategorySelect').val(rule.get("category"));
 			$('#ruleEditDialog input.payee').val(rule.get("payee"));
 			//show the dialog
@@ -54,15 +54,15 @@ mwimporter.Views = mwimporter.Views || {};
 			console.log('Saving model cid='+this.rule.cid);
 			// populate the rule model back from the rule edit dialog
 			this.rule.set({
-				accountNumber: $('#ruleEditDialog input.accountNumber').val(),
-				accountName: $('#ruleEditDialog input.accountName').val(),
+				payee_account: $('#ruleEditDialog input.payee_account').val(),
+				payee_account_name: $('#ruleEditDialog input.payee_account_name').val(),
 				vs: $('#ruleEditDialog input.vs').val(),
 				ks: $('#ruleEditDialog input.ks').val(),
 				ss: $('#ruleEditDialog input.ss').val(),
-				systemDesc: $('#ruleEditDialog input.systemDesc').val(),
-				payerDesc: $('#ruleEditDialog input.payerDesc').val(),
-				payeeDesc: $('#ruleEditDialog input.payeeDesc').val(),
-				avField1: $('#ruleEditDialog input.avField1').val(),
+				desc_system: $('#ruleEditDialog input.desc_system').val(),
+				desc_payer: $('#ruleEditDialog input.desc_payer').val(),
+				desc_payee: $('#ruleEditDialog input.desc_payee').val(),
+				av: $('#ruleEditDialog input.av').val(),
 				category: $('#ruleCategorySelect').val(),
 				payee: $('#ruleEditDialog input.payee').val()
 			});
