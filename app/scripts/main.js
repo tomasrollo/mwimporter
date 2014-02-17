@@ -4,6 +4,16 @@ window.mwimporter = {
 	Collections: {},
 	Views: {},
 	Routers: {},
+	progressBarEl: null,
+	
+	showPB: function() {
+		if (!this.progressBarEl) return;
+		this.progressBarEl.modal('show');
+	},
+	hidePB: function() {
+		if (!this.progressBarEl) return;
+		this.progressBarEl.modal('hide');
+	},
 	
 	init: function () {
 		'use strict';
@@ -65,6 +75,10 @@ window.mwimporter = {
 		$('#rulesPanel').collapse('hide');
 		
 		mwimporter.fileDetails = {};
+		
+		mwimporter.progressBarEl = $('#progressbarDialog');
+		mwimporter.progressBarEl.modal({backdrop: 'static', keyboard: false, show: false});
+		
 	}
 };
 
