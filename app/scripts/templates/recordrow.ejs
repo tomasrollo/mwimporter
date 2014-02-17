@@ -1,3 +1,4 @@
+<td><input type="checkbox"></td>
 <td><span><%=date %></span></td>
 <td>
 	<span><%=account %></span><br>
@@ -9,7 +10,7 @@
 	<% if (payee_account_name != '') { %><abbr title="Název protiúčtu">NP:</abbr> <%=payee_account_name %><br><% } %>
 	<% if (vs != '') { %><abbr title="Variabilní symbol">VS:</abbr> <%=vs %> <% } %>
 	<% if (ks != '') { %><abbr title="Konstantní symbol">KS:</abbr> <%=ks %> <% } %>
-	<% if (ss != '') { %><abbr title="Specifickí symbol">SS:</abbr> <%=ss %> <% } %>
+	<% if (ss != '') { %><abbr title="Specificky symbol">SS:</abbr> <%=ss %> <% } %>
 	<% if (vs != '' || ks != '' || ss != '') { %><br><% } %>
 	<% if (desc_system != '') { %><abbr title="Systémový popis">SP:</abbr> <%=desc_system %><br><% } %>
 	<% if (desc_payer != '') { %><abbr title="Popis příkazce">PP:</abbr> <%=desc_payer %><br><% } %>
