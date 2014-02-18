@@ -27,7 +27,7 @@ mwimporter.Views = mwimporter.Views || {};
 		events: {
 			"click .btnRuleEditDialogSave": "saveRule",
 			"click .btnRuleEditDialogCancel": "cancelRuleEdit",
-			"keypress input": "createOnEnter",
+			"keypress #ruleEditDialog input": "createOnEnter",
 		},
 		show: function(rule) {
 			this.rule = rule;

@@ -26,6 +26,11 @@ mwimporter.Views = mwimporter.Views || {};
 			});
 			// render the table for the first time - it will not change after that
 			this.$el.html(this.template());
+			$('#recordsTable th > input[type="text"]').each(function() {
+				$(this).multifilter({
+					target: $('#recordsTable'),
+				});
+			});
 		},
 		render: function() {
 			return this;
@@ -49,7 +54,7 @@ mwimporter.Views = mwimporter.Views || {};
 			var status = this.$el.find('th input[type="checkbox"]').is(':checked');
 			// console.log('toggling all record checkboxes, status is '+status);
 			_(this.rowViews).each(function(rowView) {
-				rowView.toggleCheckbox(status);
+				if (rowView.isVisible()) rowView.toggleCheckbox(status);
 			});
 		},
 		deleteSelectedRecords: function() {
@@ -65,6 +70,7 @@ mwimporter.Views = mwimporter.Views || {};
 		},
 		refreshCategorySelect: function() {
 			$('#recordCategorySelect2').empty();
+			console.log('refreshing recordCategorySelect2');
 			mwimporter.categories.each(function(category) {
 				$('#recordCategorySelect2').append('<option value="'+category.id+'">'+category.get('name')+'</option>');
 			});
@@ -133,6 +139,9 @@ mwimporter.Views = mwimporter.Views || {};
 				console.log('setting category to record id='+this.model.id+' to category id='+category);
 				this.model.set('category', category);
 			}
+		},
+		isVisible: function() {
+			return this.$el.is(':visible');
 		},
 	});
 

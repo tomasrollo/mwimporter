@@ -26,7 +26,7 @@ mwimporter.Views = mwimporter.Views || {};
 		events: {
 			"click .btnCategoryEditDialogSave": "saveCategory",
 			"click .btnCategoryEditDialogCancel": "cancelCategoryEdit",
-			"keypress input": "createOnEnter",
+			"keypress #categoryEditDialog input": "createOnEnter",
 		},
 		show: function(category) {
 			this.category = category;
