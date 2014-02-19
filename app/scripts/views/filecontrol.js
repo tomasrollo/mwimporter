@@ -181,7 +181,31 @@ var AV4 = "AV pole 4";
 				});
 			});
 		},
-		downloadResultFile: function() {},
+		downloadResultFile: function() {
+			var tpl = _.template('"<%=account %>","<%=transfers %>","<%=desc %>","<%=payee %>","<%=category %>","<%=date %>","<%=amount %>"');
+			var csv = mwimporter.records.chain().filter(function(r) {
+				var record = r.toJSON();
+				record.transfers = mwimporter.accounts.get(record.transfers).get('name');
+				return record.transfers == ''
+				|| (record.account == 'Tomas KB' && record.transfers != '')
+				|| (record.account = 'Iri KB' && record.transfers == 'ING');
+			}).map(function(r) {
+				var record = r.toJSON();
+				record.transfers = mwimporter.accounts.get(record.transfers).get('name');
+				record.amount = Math.round(parseFloat(record.amount.replace(',','.')));
+				record.desc = [record.desc, record.desc_payee, record.desc_payer, record.desc_system, record.ks, record.ss, record.vs, record.av].join(' ').trim().slice(0,253);
+				
+				if (DEBUG_RESULT) {
+					if (record.account == 'Tomas KB') record.account = 'Test Account 1';
+					if (record.account == 'Iri KB') record.account = 'Test Account 2';
+					if (record.transfers == 'Tomas KB') record.transfers = 'Test Account 1';
+					if (record.transfers == 'Iri KB') record.transfers = 'Test Account 2';
+				}
+				
+				return tpl(record);
+			}).value();
+			document.location='data:text/csv,'+encodeURIComponent('"account","transfers","desc","payee","category","date","amount"\n'+csv.join('\n'));
+		},
 		clearRecords: function() {
 			for (var i = mwimporter.records.length - 1; i >= 0; i--) mwimporter.records.at(i).destroy();
 		},
