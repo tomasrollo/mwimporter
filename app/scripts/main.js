@@ -57,9 +57,6 @@ window.mwimporter = {
 			collection: this.records,
 			el: 'body'
 		});
-		this.statusView = new this.Views.StatusView({
-			el: '#statusSpan'
-		});
 		this.fileControlView = new this.Views.FilecontrolView({
 			el: '#filesPane'
 		});
