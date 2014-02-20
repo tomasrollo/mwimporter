@@ -95,13 +95,16 @@ var AV4 = "AV pole 4";
 			
 			var noAccount = mwimporter.accounts.findWhere({name: ''});
 			if (!noAccount) throw 'default no-account does not exist';
+			var cashAccount = mwimporter.accounts.findWhere({name: 'Cash'});
+			if (!cashAccount) throw 'cash account does not exist';
 			var ownAccount;
 			
-			var detectTransfer = function(payee) {
+			var detectTransfer = function(payee, desc_system) {
 				if (payee == '') {
 					// console.log('no payee provided, returning noAccount');
 					return noAccount.id; // default empty transfer account for payees not found
 				}
+				if (desc_system === 'Výběr hotovosti z ATM') return cashAccount.id;
 				var payeeAccount = mwimporter.accounts.findWhere({number: payee});
 				if (!payeeAccount) {
 					// console.log('payeeAccount not found, returning noAccount');
@@ -136,7 +139,7 @@ var AV4 = "AV pole 4";
 					mwimporter.records.create({
 						date: t[DATUM_SPLATNOSTI],
 						account: who,
-						transfers: detectTransfer(t[PROTIUCET_CISLO]),
+						transfers: detectTransfer(t[PROTIUCET_CISLO], t[POPIS_SYSTEM]),
 						// desc start
 						payee_account: t[PROTIUCET_CISLO],
 						payee_account_name: t[PROTIUCET_NAZEV],
