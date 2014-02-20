@@ -23,6 +23,7 @@ mwimporter.Views = mwimporter.Views || {};
 				'records:add': this.addRecord,
 				'records:reset': this.emptyTable,
 				'categories:sync': this.refreshCategorySelect,
+				'files:processed': this.updateRecordTableSummary,
 			});
 			// render the table for the first time - it will not change after that
 			this.$el.html(this.template());
@@ -74,6 +75,31 @@ mwimporter.Views = mwimporter.Views || {};
 			mwimporter.categories.each(function(category) {
 				$('#recordCategorySelect2').append('<option value="'+category.id+'">'+category.get('name')+'</option>');
 			});
+		},
+		updateRecordTableSummary: function(fileDetails) {
+			console.log('running updateRecordTableSummary');
+			if (fileDetails['Iri KB'] === undefined) throw "fileDetails['Iri KB'] is undefined!";
+			if (fileDetails['Tomas KB'] === undefined) throw "fileDetails['Tomas KB'] is undefined!";
+			var received = 0;
+			var sent = 0;
+			mwimporter.records.each(function(record) {
+				var amount = parseFloat(record.get('amount').replace(',','.'));
+				if (amount < 0) sent += amount;
+				else received += amount;
+			});
+
+			console.log('received='+received);
+			console.log('sent='+sent);
+			
+			var diffR = Math.abs(received) - Math.abs(parseFloat(fileDetails['Iri KB'].received.replace(',','.'))) - Math.abs(parseFloat(fileDetails['Tomas KB'].received.replace(',','.')));
+			var diffS = Math.abs(sent) - Math.abs(parseFloat(fileDetails['Iri KB'].sent.replace(',','.'))) - Math.abs(parseFloat(fileDetails['Tomas KB'].sent.replace(',','.')));
+			
+			diffR = Math.round(diffR);
+			diffS = Math.round(diffS);
+			$('.recordsTableSummaryIncome').text(""+mwimporter.formatCZK(Math.round(received))+" difference: "+mwimporter.formatCZK(diffR));
+			$('.recordsTableSummaryExpense').text(""+mwimporter.formatCZK(Math.round(sent))+" difference: "+mwimporter.formatCZK(diffS));
+			$('.recordsTableSummaryIncome').removeClass().addClass(Math.abs(diffR) < 1 ? 'text-success' : 'text-error');
+			$('.recordsTableSummaryExpense').removeClass().addClass(Math.abs(diffS) < 1 ? 'text-success' : 'text-error');
 		},
 	});
 

@@ -71,7 +71,12 @@ var AV4 = "AV pole 4";
 			.done(function(data) {
 					try {
 						mwimporter.fileDetails[who] = self.parseCSV(data);
-						statusEl.text('Success!').removeClass().addClass('text-success');
+						var statusText = 'Success! '
+						+ 'start: '	+ mwimporter.formatCZK(parseFloat(mwimporter.fileDetails[who].startBalance))
+						+ ', (+): ' + mwimporter.formatCZK(parseFloat(mwimporter.fileDetails[who].received))
+						+ ', (-): ' + mwimporter.formatCZK(parseFloat(mwimporter.fileDetails[who].sent))
+						+ ', end: ' + mwimporter.formatCZK(parseFloat(mwimporter.fileDetails[who].endBalance));
+						statusEl.text(statusText).removeClass().addClass('text-success');
 					} catch(err) {
 						console.error(err);
 						statusEl.text('Error parsing file: '+err).removeClass().addClass('text-error');
@@ -120,7 +125,6 @@ var AV4 = "AV pole 4";
 				return noAccount.id;
 			};
 			
-			
 			var self = this;
 			_(['Iri KB','Tomas KB']).each(function(who) {
 				console.log('Mapping '+who+' transactions to records');
@@ -148,6 +152,7 @@ var AV4 = "AV pole 4";
 					});
 				});
 			});
+			mwimporter.vent.trigger("files:processed", mwimporter.fileDetails);
 			mwimporter.oldFileDetails = mwimporter.fileDetails;
 			delete mwimporter.fileDetails;
 		},

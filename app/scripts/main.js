@@ -14,10 +14,17 @@ window.mwimporter = {
 		if (!this.progressBarEl) return;
 		this.progressBarEl.modal('hide');
 	},
+	CZKformatter: null,
+	formatCZK: function(amount) {
+		if (!this.CZKformatter) throw "CZKformatter not initialized!";
+		return this.CZKformatter.format(amount)+' CZK';
+	},
 	
 	init: function () {
 		'use strict';
 		console.log('Hello from mwimporter!');
+		
+		this.CZKformatter = Intl.NumberFormat('cs-cz');
 		
 		// instantiate all the collections
 		this.accounts = new this.Collections.AccountsCollection();
