@@ -41,7 +41,9 @@
           var row = $(this);
           var cell = $(row.children(item_tag)[col_index]);
           if (filter) {
-            if (cell.text().toLowerCase().indexOf(filter.toLowerCase()) !== -1) {
+          	filter = filter.toLowerCase();
+          	var text = cell.text().toLowerCase();
+            if ((filter === '<empty>' && text === '') || text.indexOf(filter) !== -1) {
               cell.attr('data-filtered', 'positive');
             } else {
               cell.attr('data-filtered', 'negative');
