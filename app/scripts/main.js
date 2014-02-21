@@ -82,7 +82,6 @@ window.mwimporter = {
 		
 		mwimporter.progressBarEl = $('#progressbarDialog');
 		mwimporter.progressBarEl.modal({backdrop: 'static', keyboard: false, show: false});
-		
 	}
 };
 

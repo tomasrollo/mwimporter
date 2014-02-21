@@ -38,45 +38,50 @@
         var filter = $this.val();
         rows = container.find($(row_tag));
         rows.each(function() {
-          var row = $(this);
-          var cell = $(row.children(item_tag)[col_index]);
-          if (filter) {
-          	filter = filter.toLowerCase();
-          	var text = cell.text().toLowerCase();
-            if ((filter === '<empty>' && text === '') || text.indexOf(filter) !== -1) {
-              cell.attr('data-filtered', 'positive');
-            } else {
-              cell.attr('data-filtered', 'negative');
-            }
-            if (row.find(item_tag + "[data-filtered=negative]").size() > 0) {
-               row.hide();
-            } else {
-              if (row.find(item_tag + "[data-filtered=positive]").size() > 0) {
-                row.show();
-              }
-            }
-          } else {
-            cell.attr('data-filtered', 'positive');
-            if (row.find(item_tag + "[data-filtered=negative]").size() > 0) {
-              row.hide();
-            } else {
-              if (row.find(item_tag + "[data-filtered=positive]").size() > 0) {
-                row.show();
-              }
-            }
-          }
-        }).promise().done(function() {
-        	// spinner.hide();
-        	$this.css("background-color",'white');
+			var row = $(this);
+			var cell = $(row.children(item_tag)[col_index]);
+			if (filter) {
+				filter = filter.toLowerCase();
+				var text = cell.text().toLowerCase();
+				if ((filter === '<empty>' && text === '') || text.indexOf(filter) !== -1) {
+					cell.attr('data-filtered', 'positive');
+				} else {
+					cell.attr('data-filtered', 'negative');
+				}
+				// if (row.find(item_tag + "[data-filtered=negative]").size() > 0) {
+				//   row.hide();
+				// } else {
+				//   if (row.find(item_tag + "[data-filtered=positive]").size() > 0) {
+				//     row.show();
+				//   }
+				// }
+			} else {
+				cell.attr('data-filtered', 'positive');
+				// if (row.find(item_tag + "[data-filtered=negative]").size() > 0) {
+				//   row.hide();
+				// } else {
+				//   if (row.find(item_tag + "[data-filtered=positive]").size() > 0) {
+				//     row.show();
+				//   }
+				// }
+			}
         });
+        var rowsToShow = container.find('tbody tr td[data-filtered=positive]');
+        rowsToShow.each(function(i,e) { $(e).parent().show(); });
+        console.log('shown '+rowsToShow.length+' rows');
+        var rowsToHide = container.find('tbody tr td[data-filtered=negative]');
+        rowsToHide.each(function(i,e) { $(e).parent().hide(); });
+        console.log('hid '+rowsToHide.length+' rows');
+        // .promise().done(function() {
+        // 	// spinner.hide();
+        // 	// $this.css("background-color",'white');
+        // });
         return false;
       }).keyup(function(event) {
 		if (event.which == 13) {
-        	$this.css("background-color",'grey');
+        	// $this.css("background-color",'grey');
 			// spinner.show();
 			$this.change();
-			event.stopPropagation();
-			event.preventDefault();
 		}
       });
     });
