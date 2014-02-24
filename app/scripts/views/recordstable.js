@@ -164,6 +164,7 @@ mwimporter.Views = mwimporter.Views || {};
 			if (this.$checkbox.is(':checked')) {
 				console.log('setting category to record id='+this.model.id+' to category id='+category);
 				this.model.set('category', category);
+				this.model.save();
 			}
 		},
 		isVisible: function() {
