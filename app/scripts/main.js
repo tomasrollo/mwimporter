@@ -86,7 +86,7 @@ window.mwimporter = {
 };
 
 var DEBUG_VENT = true;
-var DEBUG_RESULT = true;
+var DEBUG_RESULT = false;
 
 window.mwimporter.debug = function(name) {
 	return function() {

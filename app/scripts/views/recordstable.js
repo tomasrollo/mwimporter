@@ -14,6 +14,7 @@ mwimporter.Views = mwimporter.Views || {};
 		events: {
 			"click .btnAddRecord": "newRecord",
 			"click .btnUpdateSelectedRecordsCategory": "updateSelectedRecordsCategory",
+			"click .btnUpdateSelectedRecordsPayee": "updateSelectedRecordsPayee",
 			"click .btnDeleteSelectedRecords": "deleteSelectedRecords",
 			'click th input[type="checkbox"]': "toggleAllCheckboxes",
 		},
@@ -61,6 +62,12 @@ mwimporter.Views = mwimporter.Views || {};
 		deleteSelectedRecords: function() {
 			_(this.rowViews).each(function(rowView) {
 				rowView.deleteIfSelected();
+			});
+		},
+		updateSelectedRecordsPayee: function() {
+			var payee = $('#recordPayeeInput').val()
+			_(this.rowViews).each(function(rowView) {
+				rowView.updatePayeeIfSelected(payee);
 			});
 		},
 		updateSelectedRecordsCategory: function() {
@@ -157,6 +164,14 @@ mwimporter.Views = mwimporter.Views || {};
 		deleteIfSelected: function() {
 			if (this.$checkbox.is(':checked')) {
 				this.deleteRecord();
+			}
+		},
+		updatePayeeIfSelected: function(payee) {
+			if (payee === undefined) throw "Error, payee parameter is undefined";
+			if (this.$checkbox.is(':checked')) {
+				console.log('setting payee to record id='+this.model.id+' to payee id='+payee);
+				this.model.set('payee', payee);
+				this.model.save();
 			}
 		},
 		updateCategoryIfSelected: function(category) {

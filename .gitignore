@@ -6,3 +6,5 @@ app/bower_components
 .tmp
 test/bower_components/
 TODO.txt
+app/*.csv
+app/categories.json
