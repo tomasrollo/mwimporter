@@ -72,6 +72,9 @@
         var rowsToHide = container.find('tbody tr td[data-filtered=negative]');
         rowsToHide.each(function(i,e) { $(e).parent().hide(); });
         console.log('hid '+rowsToHide.length+' rows');
+        var allRows = container.find('tbody tr').length;
+        var hiddenRows = container.find('tbody tr:hidden').length;
+		$('.recordsTableRowCount').text('Showing '+(allRows - hiddenRows)+' records ('+hiddenRows+' records hidden)');
         // .promise().done(function() {
         // 	// spinner.hide();
         // 	// $this.css("background-color",'white');
